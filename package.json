@@ -1,4 +1,7 @@
 {
+  "name": "maps",
+  "repository": "https://github.com/michalc/test/",
+  "license": "MIT",
   "devDependencies": {
     "bower": "^1.6.5",
     "gulp": "^3.9.0",
