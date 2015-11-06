@@ -12,7 +12,7 @@ gulp.task('lint', function () {
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('default', ['lint'], function() {
+gulp.task('default', [], function() {
   var build = 'build';
 
   var src = 'src/*';

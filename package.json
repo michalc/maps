@@ -11,6 +11,6 @@
   },
   "scripts": {
     "postinstall": "./node_modules/bower/bin/bower install",
-    "test": "echo 'No tests yet'"
+    "test": "./node_modules/gulp/bin/gulp.js lint"
   }
 }
