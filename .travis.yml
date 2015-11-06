@@ -2,8 +2,6 @@ sudo: false
 language: node_js
 node_js:
   - "0.12"
-install:
-  - ./node_modules/gulp/bin/gulp.js
 deploy:
   provider: s3
   local_dir: build
