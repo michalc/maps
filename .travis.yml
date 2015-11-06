@@ -1,0 +1,16 @@
+sudo: false
+language: node_js
+node_js:
+  - "0.12"
+install:
+  - ./node_modules/gulp/bin/gulp.js
+deploy:
+  provider: s3
+  local_dir: build
+  access_key_id: "AKIAIZWQ56AMGSRT7J3A"
+  secret_access_key:
+    secure: "Yz+PDqywriFGqobPFJoRTs2/iOyIA4ik/pyWNnbXOunVmJWCM9IOHlkkJeIlgLgbkyeOIawxsjwunUHCpRgRMDG5t8GhueMxSsWpvhmtBYxkNygu/l/YukTopCcK/Yiav/8DcLdsNMjtbcK3yp6+8Cot6aSlzDaaemv/8Hp/jcyiCgrONFZtWF+V3JzquM81lr9d0vFA730OVP++EA007p8vX5FZhYeYxoqFe0EO0rLE7OS6JgVcniSIfFviWDQwVOtqI6Lxb8oBNmfbpXKrY+AG4hdYPPY5A9JxkUMekqzxJMOoXCK1JgWdkCSksUbDGrXj7n8XJULbD6pWqQDMqVDac/XgI1H3VDB1kR68WmVvTKysdYoVkeJlLk324A0ppBdN4Yk2xfBCfZGVptcGROO43Uj3moNiwHTIi0sgC01GGCNiL0T+5W2m59cZClJ4YFnf6dZmNVTPwxhP6ha2FKByZDokVSOxkuoB7EKttSyWEgsDFHSQBAEPC4AK5Xra86Cds+b19Se7DpgFA0K4uH24NBoutEx/4UJXk7t22Gp+96cMeUglU9DvmTFYtNszkYZnBMYA6Cgsj5pGwApUre7XWxa18o8Bavw7aQAu543aYZMvQuOyTy0YxIgt05Vm3PLPTU9QfM8Lidj71aTLVamB192J/CRZJ4ihwqbENbk="
+  bucket: "maps.charemza.name"
+  region: eu-west-1
+  skip_cleanup: true
+  detect_encoding: true

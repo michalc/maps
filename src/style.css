@@ -1,0 +1,69 @@
+overlay {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+
+.overlay-show {
+  display: block;
+}
+
+.no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.wrapper {
+  padding: 20px;
+}
+
+chart {
+  display: block;
+  position: relative;
+}
+
+.chart-map {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.chart-widgets {
+  position: relative;
+}
+
+.coords,
+.bearings {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 20px;
+}
+
+.data {
+  font-family: monospace;
+}
+
+.attribution {
+  font-size: 10px;
+}
+
+circle {
+  stroke: none;
+  fill: rgba(0,0,0,0);
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+
+line {
+  stroke: red;
+  stroke-width: 2;
+  pointer-events: none;
+}

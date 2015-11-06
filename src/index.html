@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html ng-app="mercator">
+  <head>
+    <meta charset="utf-8">
+    <title>Mercator Chart</title>
+    <script src="bower_components/lodash/lodash.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="app.js"></script>
+    <link rel="stylesheet" href="bower_components/normalize-css/normalize.css">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body overlay reflow>
+    <div class="wrapper" ng-controller="MercatorController">
+      <div class="coords">
+        <p class="data">{{circleCoords1.lat | lat}} {{circleCoords1.long | long}}</p>
+        <p class="data">{{circleCoords2.lat | lat}} {{circleCoords2.long | long}}</p>
+      </div>
+      <div class="bearings">
+        <p class="data">Rhumb line bearing: {{ bearing() | bearing }}</p>
+      </div>
+      <chart
+        chart="chart",
+        width="1010"
+        height="665"
+        circle-coords-1="circleCoords1"
+        circle-coords-2="circleCoords2">
+      </chart>
+      <p class="attribution">Chart provided by <a href="http://www.amcharts.com/">amcharts.com</a> under <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.</p>
+    </div>
+    <overlay></overlay>
+  </body>
+</html>
