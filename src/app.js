@@ -193,21 +193,13 @@
         var parsedOnDrag = $parse(attrs.onDrag);
 
         var elementRect, rootRect;
-        scope.$on('reflow', updateRects)
-        function updateRects() {
-          elementRect = element[0].getBoundingClientRect();
-          rootRect = root.getBoundingClientRect();
-        }
-
-        scope.$$postDigest(function() {
-          updateRects();
-        });
         
         element.on('mousedown touchstart', function(e) {
           e.preventDefault();
           overlay.show();
 
           elementRect = element[0].getBoundingClientRect();
+          rootRect = root.getBoundingClientRect();
 
           // At the moment assuming moving the center of the element
           offsetX = (e.touches ? e.touches[0].clientX : e.clientX) - (elementRect.right + elementRect.left) / 2;

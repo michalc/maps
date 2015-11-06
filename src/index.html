@@ -11,15 +11,13 @@
   </head>
   <body overlay reflow>
     <div class="wrapper" ng-controller="MercatorController">
-      <div class="coords">
-        <p class="data">{{circleCoords1.lat | lat}} {{circleCoords1.long | long}}</p>
-        <p class="data">{{circleCoords2.lat | lat}} {{circleCoords2.long | long}}</p>
-      </div>
-      <div class="bearings">
-        <p class="data">Rhumb line bearing: {{ bearing() | bearing }}</p>
+      <div class="info">
+        {{circleCoords1.lat | lat}} {{circleCoords1.long | long}}
+        to {{circleCoords2.lat | lat}} {{circleCoords2.long | long}},
+        rhumb line bearing: {{ bearing() | bearing }}
       </div>
       <chart
-        chart="chart",
+        chart="chart"
         width="1010"
         height="665"
         circle-coords-1="circleCoords1"
