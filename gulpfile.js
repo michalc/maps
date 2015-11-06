@@ -1,8 +1,18 @@
+/* eslint-env node */
+
 var gulp = require('gulp');
+var eslint = require('gulp-eslint');
 var changed = require('gulp-changed');
 var merge = require('merge-stream');
 
-gulp.task('default', function() {
+gulp.task('lint', function () {
+  return gulp.src(['gulpfile.js', 'src/*.js'])
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
+});
+
+gulp.task('default', ['lint'], function() {
   var build = 'build';
 
   var src = 'src/*';
@@ -11,9 +21,7 @@ gulp.task('default', function() {
     .pipe(changed(dest))
     .pipe(gulp.dest(dest));
 
-
   var bowerSrcDir = 'bower_components';
-  var bowerSrc = bowerSrcDir + '/**/*';
   var bowerDest = build + '/bower_components';
   var files = [
     bowerSrcDir + '/lodash/lodash.js',

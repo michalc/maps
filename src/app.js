@@ -1,4 +1,6 @@
-(function(global) {
+/* eslint-env browser */
+
+(function(angular) {
   'use strict';
 
   function clamp(val, min, max) {
@@ -101,7 +103,6 @@
         return 270;
       }
       var theta = Math.atan(dx/dy);
-      var degrees = toDegrees(theta);
       return toDegrees(theta) + (dy < 0 ? 180 : 0) + (dx < 0 && dy > 0 ? 360 : 0);
     }
   });
@@ -206,7 +207,7 @@
           e.preventDefault();
           overlay.show();
 
-          var elementRect = element[0].getBoundingClientRect();
+          elementRect = element[0].getBoundingClientRect();
 
           // At the moment assuming moving the center of the element
           offsetX = (e.touches ? e.touches[0].clientX : e.clientX) - (elementRect.right + elementRect.left) / 2;
@@ -239,7 +240,7 @@
     };
   });
 
-  app.directive('chart', function(Mercator, $document, $parse) {
+  app.directive('chart', function(Mercator) {
     return {
       restrict:'E',
       scope: true,
@@ -329,4 +330,4 @@
     };
   });
 
-})(self);
+})(self.angular);
