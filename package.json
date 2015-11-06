@@ -6,7 +6,7 @@
     "merge-stream": "^1.0.0"
   },
   "scripts": {
-    "install": "./node_modules/bower/bin/bower install",
+    "postinstall": "./node_modules/bower/bin/bower install",
     "test": "echo 'No tests yet'"
   }
 }
