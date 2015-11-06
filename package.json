@@ -10,8 +10,7 @@
     "merge-stream": "^1.0.0"
   },
   "scripts": {
-    "install": "gulp",
-    "postinstall": "bower install",
+    "install": "bower install",
     "test": "gulp lint"
   }
 }
