@@ -66,9 +66,8 @@ overlay {
 }
 
 .info {
-
-  background: white;
-  color: #333333;
+  background: #333333;
+  color: white;
   font-family: monospace;
   padding: 8px 16px;
   box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.75);
