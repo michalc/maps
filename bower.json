@@ -2,7 +2,7 @@
   "name": "maps",
   "dependencies": {
     "angular": "1.4.7",
-    "lodash": "~3.10.1",
-    "normalize-css": "normalize.css#~3.0.3"
+    "lodash": "3.10.1",
+    "normalize-css": "3.0.3"
   }
 }
