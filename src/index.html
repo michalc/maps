@@ -11,10 +11,12 @@
   </head>
   <body overlay reflow>
     <div class="wrapper" ng-controller="MercatorController">
-      <div class="info">
-        {{circleCoords1.lat | lat}} {{circleCoords1.long | long}}
-        to {{circleCoords2.lat | lat}} {{circleCoords2.long | long}},
-        rhumb line bearing: {{ bearing() | bearing }}
+      <div class="info-wrapper">
+        <div class="info">
+          {{circleCoords1.lat | lat}} {{circleCoords1.long | long}}
+          to {{circleCoords2.lat | lat}} {{circleCoords2.long | long}},
+          rhumb line bearing: {{ bearing() | bearing }}
+        </div>
       </div>
       <chart
         chart="chart"
@@ -23,8 +25,8 @@
         circle-coords-1="circleCoords1"
         circle-coords-2="circleCoords2">
       </chart>
-      <p class="attribution">Chart provided by <a href="http://www.amcharts.com/">amcharts.com</a> under <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.</p>
     </div>
+    <p class="attribution">Chart provided by <a href="http://www.amcharts.com/">amcharts.com</a> under <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.</p>
     <overlay></overlay>
   </body>
 </html>

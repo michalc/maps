@@ -17,6 +17,15 @@ body {
   padding: 20px;
   height: 100%;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  /* Dimensions of chart */
+  min-width: 1010px;
+  min-height: 665px;
+  box-sizing: content-box;
 }
 
 a,
@@ -47,10 +56,17 @@ overlay {
   user-select: none;
 }
 
-.info {
-  position: absolute;
-  /* Over map */
+.info-wrapper {
+  max-height: 0;
+  flex: 0 0 0;
+  top: 20px;
+  position: relative;
+  /* Over chart */
   z-index: 1;
+}
+
+.info {
+
   background: white;
   color: #333333;
   font-family: monospace;
@@ -75,6 +91,7 @@ chart {
 
 .attribution {
   font-size: 10px;
+  text-align: center;
 }
 
 circle {
