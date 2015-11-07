@@ -7,7 +7,7 @@
     "gulp": "^3.9.0",
     "gulp-changed": "^1.3.0",
     "gulp-eslint": "^1.0.0",
-    "merge-stream": "^1.0.0"
+    "merge2": "^0.3.6"
   },
   "scripts": {
     "install": "bower install",
@@ -18,6 +18,6 @@
     "gulp-download": "0.0.1",
     "gulp-unzip": "^0.1.3",
     "mapnik": "^3.4.9",
-    "promise": "^7.0.4"
+    "vinyl-source-stream": "^1.1.0"
   }
 }

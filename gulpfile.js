@@ -3,7 +3,7 @@
 var gulp = require('gulp');
 var eslint = require('gulp-eslint');
 var changed = require('gulp-changed');
-var merge = require('merge-stream');
+var merge = require('merge2');
 
 // Requires dev dependencies to be installed
 gulp.task('download-charts', function () {
@@ -18,43 +18,33 @@ gulp.task('download-charts', function () {
 // Requires dev dependencies to be installed,
 // and download-charts task to be run
 gulp.task('generate-charts', function () {
+  var mapJsonStream = require('./src/map-json-stream');
   var geojsonStream = require('geojson-stream');
-  var mapnik = require('mapnik');
-  var fs = require('fs');
-  var promise = require('promise');
   var path = require('path');
 
-  mapnik.register_default_input_plugins();
+  var source = require('vinyl-source-stream')
 
-  // Can't seem to find way for mapnik to handle files asynchronously
   var root = 'data_src/WDBII_shp/c/'
   var inputs = [
     root + 'WDBII_border_c_L1.shp',
     root + 'WDBII_border_c_L2.shp',
     root + 'WDBII_border_c_L3.shp'
   ];
-  var outputDir = 'data/';
+  var outputDir = 'data';
 
-  inputs.forEach(function(input) {
-    var output = outputDir + path.basename(input, '.shp') + '.json';
+  var streams = inputs.map(function(input) {
+    var output = path.basename(input, '.shp') + '.json';
 
-    var fileOut = fs.createWriteStream(output);
+    var mapStream = new mapJsonStream({}, input);
     var geojsonOut = geojsonStream.stringify();
-    geojsonOut.pipe(fileOut);
 
-    var ds = new mapnik.Datasource({type:'shape', file: input});
-    var featureset = ds.featureset()
-    var feat = featureset.next();
-
-    while (feat) {
-      geojsonOut.write(JSON.parse(feat.toJSON()));
-      feat = featureset.next();
-    }
-
-    geojsonOut.end();
+    return mapStream
+      .pipe(geojsonOut)
+      .pipe(source(output))
+      .pipe(gulp.dest(outputDir));
   });
 
-  return promise.resolve();
+  return merge(streams);
 });
 
 gulp.task('lint', function () {
@@ -74,7 +64,10 @@ gulp.task('default', [], function() {
     .pipe(changed(dataDest))
     .pipe(gulp.dest(dataDest));
 
-  var src = 'src/*';
+  var src = [
+    'src/*',
+    '!src/map-json-stream.js'
+  ];
   var srcFiles = gulp.src(src)
     .pipe(changed(dest))
     .pipe(gulp.dest(dest));
