@@ -1,5 +1,4 @@
 (function(Mercator) {
-
   Mercator.toChart = toChart;
   Mercator.toEarth = toEarth;
   Mercator.bearing = bearing;
@@ -94,4 +93,4 @@
     return toDegrees(theta) + (dy < 0 ? 180 : 0) + (dx < 0 && dy > 0 ? 360 : 0);
   }
 
-})(typeof exports === 'undefined'? this['Mercator']={} : exports);
+})(typeof this.exports === 'undefined'? this.Mercator = {} : this.exports);
