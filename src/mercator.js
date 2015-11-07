@@ -93,4 +93,4 @@
     return toDegrees(theta) + (dy < 0 ? 180 : 0) + (dx < 0 && dy > 0 ? 360 : 0);
   }
 
-})(typeof this.exports === 'undefined'? this.Mercator = {} : this.exports);
+})(typeof exports === 'undefined' ? this.Mercator = {} : exports);

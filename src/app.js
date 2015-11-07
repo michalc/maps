@@ -197,14 +197,15 @@
 
   app.controller('MercatorController', function($scope, Mercator) {
     $scope.chart = {
-      src: 'world.svg',
+      //src: 'world.svg',
+      src: 'data/GSHHS_c_L1.svg',
       projection: 'mercator',
       bounds: {
         earth: {
-          top: 83.600842,
-          bottom: -58.508473,
-          left: -169.110266,
-          right: 190.486279
+          top: 88,
+          bottom: -88,
+          left: -180,
+          right: 180
         },
         screen: {
           top: 0,
@@ -212,7 +213,7 @@
           left: 0,
           right: 1010
         }
-      }  
+      }
     };
 
     $scope.circleCoords1 = {

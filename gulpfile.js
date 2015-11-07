@@ -19,27 +19,52 @@ gulp.task('download-charts', function () {
 // and download-charts task to be run
 gulp.task('generate-charts', function () {
   var mapJsonStream = require('./src/map-json-stream');
+  var jsonToSvgStream = require('./src/json-to-svg-stream');
   var geojsonStream = require('geojson-stream');
   var path = require('path');
 
   var source = require('vinyl-source-stream')
 
-  var root = 'data_src/WDBII_shp/c/'
+  // var root = 'data_src/WDBII_shp/c/'
+  // var inputs = [
+  //   root + 'WDBII_border_c_L1.shp',
+  //   root + 'WDBII_border_c_L2.shp',
+  //   root + 'WDBII_border_c_L3.shp'
+  // ];
+
+  var root = 'data_src/GSHHS_shp/c/'
   var inputs = [
-    root + 'WDBII_border_c_L1.shp',
-    root + 'WDBII_border_c_L2.shp',
-    root + 'WDBII_border_c_L3.shp'
+    root + 'GSHHS_c_L1.shp',
+    root + 'GSHHS_c_L2.shp',
+    root + 'GSHHS_c_L3.shp'
   ];
+
   var outputDir = 'data';
 
   var streams = inputs.map(function(input) {
-    var output = path.basename(input, '.shp') + '.json';
+    var output = path.basename(input, '.shp') + '.svg';
 
     var mapStream = new mapJsonStream({}, input);
+    var bounds = {
+      earth: {
+        top: 88,
+        bottom: -88,
+        left: -180,
+        right: 180
+      },
+      screen: {
+        top: 0,
+        bottom: 665, 
+        left: 0,
+        right: 1010
+      }
+    };
+    var svgStream = new jsonToSvgStream({}, bounds);
     var geojsonOut = geojsonStream.stringify();
 
     return mapStream
-      .pipe(geojsonOut)
+      //.pipe(geojsonOut)
+      .pipe(svgStream)
       .pipe(source(output))
       .pipe(gulp.dest(outputDir));
   });
@@ -58,7 +83,7 @@ gulp.task('default', [], function() {
   var build = 'build';
   var dest = build;
 
-  var dataSrc = 'data/*.json';
+  var dataSrc = 'data/*.svg';
   var dataDest = build + '/data';
   var dataFiles = gulp.src(dataSrc)
     .pipe(changed(dataDest))
