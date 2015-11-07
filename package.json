@@ -12,5 +12,12 @@
   "scripts": {
     "install": "bower install",
     "test": "gulp lint"
+  },
+  "devDependencies": {
+    "geojson-stream": "0.0.1",
+    "gulp-download": "0.0.1",
+    "gulp-unzip": "^0.1.3",
+    "mapnik": "^3.4.9",
+    "promise": "^7.0.4"
   }
 }
