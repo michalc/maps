@@ -2,7 +2,8 @@ sudo: false
 language: node_js
 node_js:
   - "0.12"
-script: npm install --production
+env:
+  - NODE_ENV=production
 before_deploy:
   - gulp
 deploy:
