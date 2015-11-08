@@ -131,7 +131,7 @@
 
   function greatCirclePath(fromLong, fromLat, toLong, toLat, numPoints) {
     var path = [];
-    var i, f, earthCoords;
+    var i, f;
     for (i = 0; i < numPoints; ++i) {
       f = 1/(numPoints-1) * i;
       path.push(Mercator.greatCircle(fromLong, fromLat, toLong, toLat, f));

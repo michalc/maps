@@ -204,7 +204,6 @@
             } else {
               var prevPoint = path[i - 1];
               if (Math.abs(prevPoint.long - point.long) > 180) {
-                console.log('here');
                 onPath1 = false;
                 // Could also push extra points to each path to go past the edge
                 path2.push(point);
