@@ -19,7 +19,6 @@ gulp.task('download-charts', function () {
 // and download-charts task to be run
 gulp.task('generate-charts', function () {
   var source = require('vinyl-source-stream');
-  var through2 = require('vinyl-source-stream');
 
   var mapJsonStream = require('./src/map-json-stream');
   var jsonToSvgStream = require('./src/json-to-svg-stream');

@@ -5,8 +5,6 @@
 
   var stream = require('stream');
   var util = require('util');
-  var geojsonStream = require('geojson-stream');
-
   var mercator = require('./mercator');
 
   function JsonToSvgStream(options, bounds) {
@@ -45,28 +43,29 @@
   JsonToSvgStream.prototype._transform = function(chunk, encoding, callback) {
     var coords = [];
     var self = this;
+    var path = '';
     
     if (chunk.geometry.type === 'Polygon') {
-      chunk.geometry.coordinates[0].forEach(function(longLat, i) {
+      chunk.geometry.coordinates[0].forEach(function(longLat) {
         var chartCoords = mercator.toChart(self.bounds, longLat[0], longLat[1]);
         coords.push(chartCoords);
       });
 
-      var path = '<path class="' + chunk.klass + '" d="';
+      path = '<path class="' + chunk.klass + '" d="';
       coords.forEach(function(coord, i) {
-        path += (i == 0 ? 'M' : 'L') + coord.x + ',' + coord.y;
+        path += (i == 0 ? 'M' : 'L') + Math.round(coord.x) + ',' + Math.round(coord.y);
       });
       path += 'z"/>';
       this.push(path);
     } else if (chunk.geometry.type === 'LineString') {
-      chunk.geometry.coordinates.forEach(function(longLat, i) {
+      chunk.geometry.coordinates.forEach(function(longLat) {
         var chartCoords = mercator.toChart(self.bounds, longLat[0], longLat[1]);
         coords.push(chartCoords);
       });
 
-      var path = '<path class="' + chunk.klass + '" d="';
+      path = '<path class="' + chunk.klass + '" d="';
       coords.forEach(function(coord, i) {
-        path += (i == 0 ? 'M' : 'L') + coord.x + ',' + coord.y;
+        path += (i == 0 ? 'M' : 'L') + Math.round(coord.x) + ',' + Math.round(coord.y);
       });
       path += '"/>';
       this.push(path);

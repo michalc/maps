@@ -1,3 +1,5 @@
+/* global exports */
+
 (function(Mercator) {
   Mercator.toChart = toChart;
   Mercator.toEarth = toEarth;
