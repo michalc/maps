@@ -20,56 +20,40 @@ gulp.task('download-charts', function () {
 gulp.task('generate-charts', function () {
   var mapJsonStream = require('./src/map-json-stream');
   var jsonToSvgStream = require('./src/json-to-svg-stream');
-  var geojsonStream = require('geojson-stream');
-  var path = require('path');
+  // var geojsonStream = require('geojson-stream');
+  // var path = require('path');
 
   var source = require('vinyl-source-stream')
 
-  // var root = 'data_src/WDBII_shp/c/'
-  // var inputs = [
-  //   root + 'WDBII_border_c_L1.shp',
-  //   root + 'WDBII_border_c_L2.shp',
-  //   root + 'WDBII_border_c_L3.shp'
-  // ];
-
-  var root = 'data_src/GSHHS_shp/c/'
-  var inputs = [
-    root + 'GSHHS_c_L1.shp',
-    root + 'GSHHS_c_L2.shp',
-    root + 'GSHHS_c_L3.shp'
-  ];
+  var l1Land = 'data_src/GSHHS_shp/c/GSHHS_c_L1.shp';
+  var l1Border =  'data_src/WDBII_shp/c/WDBII_border_c_L1.shp';
 
   var outputDir = 'data';
+  var outputFile = 'world.svg';
 
-  var streams = inputs.map(function(input) {
-    var output = path.basename(input, '.shp') + '.svg';
+  var bounds = {
+    earth: {
+      top: 83.6,
+      bottom: -83.6,
+      left: -180,
+      right: 180
+    },
+    screen: {
+      top: 0,
+      bottom: 665, 
+      left: 0,
+      right: 1010
+    }
+  };
 
-    var mapStream = new mapJsonStream({}, input);
-    var bounds = {
-      earth: {
-        top: 88,
-        bottom: -88,
-        left: -180,
-        right: 180
-      },
-      screen: {
-        top: 0,
-        bottom: 665, 
-        left: 0,
-        right: 1010
-      }
-    };
-    var svgStream = new jsonToSvgStream({}, bounds);
-    var geojsonOut = geojsonStream.stringify();
+  var l1LandmapStream = new mapJsonStream({}, l1Land);
+  var l1BordermapStream = new mapJsonStream({}, l1Border);
+  var svgStream = new jsonToSvgStream({}, bounds);
 
-    return mapStream
-      //.pipe(geojsonOut)
-      .pipe(svgStream)
-      .pipe(source(output))
-      .pipe(gulp.dest(outputDir));
-  });
-
-  return merge(streams);
+  return merge(l1LandmapStream, l1BordermapStream)
+    .pipe(svgStream)
+    .pipe(source(outputFile))
+    .pipe(gulp.dest(outputDir));
 });
 
 gulp.task('lint', function () {

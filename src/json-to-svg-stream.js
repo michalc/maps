@@ -24,9 +24,13 @@
         '.land { ' +
           'fill: #f7f7f7;' +
           'fill-opacity: 1;' +
+          'stroke: none' +
+        '}' +
+        '.border { ' +
+          'fill: none;' +
           'stroke: #cccccc;' +
           'stroke-opacity: 1;' +
-          'stroke-width: 0.5;' +
+          'stroke-width: 1;' +
         '}' +
       '</style>'
     );
@@ -34,32 +38,37 @@
   util.inherits(JsonToSvgStream, stream.Transform);
 
   JsonToSvgStream.prototype._transform = function(chunk, encoding, callback) {
+    var coords = [];
+    var self = this;
     
-    if (chunk.geometry.type !== 'Polygon') {
-      // Not sure if this is the best way to report error
-      this.emit('error', 'Unsupported type ' + chunk.geometry.type);
-      return;
+    if (chunk.geometry.type === 'Polygon') {
+      chunk.geometry.coordinates[0].forEach(function(longLat, i) {
+        var chartCoords = mercator.toChart(self.bounds, longLat[0], longLat[1]);
+        coords.push(chartCoords);
+      });
+
+      var path = '<path class="land" d="';
+      coords.forEach(function(coord, i) {
+        path += (i == 0 ? 'M' : 'L') + coord.x + ',' + coord.y;
+      });
+      path += 'z"/>';
+      this.push(path);
+    } else if (chunk.geometry.type === 'LineString') {
+      chunk.geometry.coordinates.forEach(function(longLat, i) {
+        var chartCoords = mercator.toChart(self.bounds, longLat[0], longLat[1]);
+        coords.push(chartCoords);
+      });
+
+      var path = '<path class="border" d="';
+      coords.forEach(function(coord, i) {
+        path += (i == 0 ? 'M' : 'L') + coord.x + ',' + coord.y;
+      });
+      path += '"/>';
+      this.push(path);
+    } else {
+      this.emit('error');
     }
 
-    var self = this;
-    var coords = [];
-    chunk.geometry.coordinates[0].forEach(function(longLat, i) {
-      var chartCoords = mercator.toChart(self.bounds, longLat[0], longLat[1]);
-
-      // Quick and dirty way to keep the size down
-      //var prevCoords = i == 0 ? null : coords[i - 1];
-      //if (!prevCoords || Math.abs(prevCoords.x - chartCoords.x) > 20 || Math.abs(prevCoords.y - chartCoords.y) > 20) {
-        coords.push(chartCoords);
-      //}
-    });
-
-    var path = '<path class="land" d="';
-    coords.forEach(function(coord, i) {
-      path += (i == 0 ? 'M' : 'L') + coord.x + ',' + coord.y;
-    });
-    path += 'z"/>'
-
-    this.push(path);
     callback();
   }
 
