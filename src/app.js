@@ -178,7 +178,7 @@
           throw new Error('Projection must be Mercator')
         }
 
-        var points = 150;
+        var numPoints = 150;
         scope.$watchGroup([
           'circleCoords1.long',
           'circleCoords1.lat',
@@ -186,20 +186,19 @@
           'circleCoords2.lat'
         ], function() {
           var i, f, earthCoords;
-          scope.path = '';
-          for (i = 0; i <= points; ++i) {
-            f = 1/points * i;
-            earthCoords = Mercator.greatCircle(
-              scope.circleCoords1.long,
-              scope.circleCoords1.lat,
-              scope.circleCoords2.long,
-              scope.circleCoords2.lat,
-              f
-            );
+          var path = Mercator.greatCirclePath(
+            scope.chart.bounds,
+            scope.circleCoords1.long,
+            scope.circleCoords1.lat,
+            scope.circleCoords2.long,
+            scope.circleCoords2.lat,
+            numPoints
+          );
 
-            var chartCoords = Mercator.toChart(scope.chart.bounds, earthCoords.long, earthCoords.lat);
+          scope.path = '';
+          _.forEach(path, function(chartCoords,i) {
             scope.path += (i == 0 ? 'M' : 'L') + chartCoords.x + ',' + chartCoords.y;
-          }
+          });
         });
 
         element.css({

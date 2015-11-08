@@ -6,6 +6,7 @@
   Mercator.bearing = bearing;
   Mercator.distance = distance;
   Mercator.greatCircle = greatCircle;
+  Mercator.greatCirclePath = greatCirclePath;
 
   function toRadians(deg) {
     return deg * Math.PI / 180;
@@ -128,5 +129,14 @@
     };
   }
 
-
+  function greatCirclePath(chartBounds, fromLong, fromLat, toLong, toLat, numPoints) {
+    var path = [];
+    var i, f, earthCoords;
+    for (i = 0; i < numPoints; ++i) {
+      f = 1/(numPoints-1) * i;
+      earthCoords = Mercator.greatCircle(fromLong, fromLat, toLong, toLat, f);
+      path.push(toChart(chartBounds, earthCoords.long, earthCoords.lat));
+    }
+    return path;
+  }
 })(typeof exports === 'undefined' ? this.Mercator = {} : exports);
