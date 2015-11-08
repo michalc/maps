@@ -163,7 +163,8 @@
                   '<rect x="1" y="1" width="5" height="5" style="stroke: none; fill:#000000;"/>' +
                 '</marker>' +
               '</defs>' +
-              '<path class="great-circle" stroke-dasharray="2 2" ng-attr-d="{{ path }}" style="marker-start:url(#marker-arrow); marker-end:url(#marker-arrow)"/>' +
+              '<path class="great-circle" stroke-dasharray="2 2" ng-attr-d="{{ path1 }}" style="marker-start:url(#marker-arrow); marker-end:url(#marker-arrow)"/>' +
+              '<path class="great-circle" stroke-dasharray="2 2" ng-attr-d="{{ path2 }}" style="marker-start:url(#marker-arrow); marker-end:url(#marker-arrow)"/>' +
               '<circle ng-attr-cx="{{ toChart(circleCoords1).x }}" ng-attr-cy="{{ toChart(circleCoords1).y }}" r="25" on-drag="onDrag(circleCoords1, $x, $y)"/>' +
               '<circle ng-attr-cx="{{ toChart(circleCoords2).x }}" ng-attr-cy="{{ toChart(circleCoords2).y }}" r="25" on-drag="onDrag(circleCoords2, $x, $y)"/>' +
             '</svg>' +
@@ -186,17 +187,43 @@
           'circleCoords2.lat'
         ], function() {
           var path = Mercator.greatCirclePath(
-            scope.chart.bounds,
             scope.circleCoords1.long,
             scope.circleCoords1.lat,
             scope.circleCoords2.long,
             scope.circleCoords2.lat,
             numPoints
           );
+          var path1 = [];
+          var path2 = [];
+          var onPath1 = 1;
+          path.forEach(function(point, i) {
+            if (i === 0) {
+              path1.push(point);
+            } else if (!onPath1) {
+              path2.push(point);
+            } else {
+              var prevPoint = path[i - 1];
+              if (Math.abs(prevPoint.long - point.long) > 180) {
+                console.log('here');
+                onPath1 = false;
+                // Could also push extra points to each path to go past the edge
+                path2.push(point);
+              } else {
+                path1.push(point);
+              }
+            }
+          });
 
-          scope.path = '';
-          path.forEach(function(chartCoords,i) {
-            scope.path += (i == 0 ? 'M' : 'L') + chartCoords.x + ',' + chartCoords.y;
+          scope.path1 = '';
+          path1.forEach(function(earthCoords,i) {
+            var chartCoords = scope.toChart(earthCoords);
+            scope.path1 += (i == 0 ? 'M' : 'L') + chartCoords.x + ',' + chartCoords.y;
+          });
+
+          scope.path2 = '';
+          path2.forEach(function(earthCoords,i) {
+            var chartCoords = scope.toChart(earthCoords);
+            scope.path2 += (i == 0 ? 'M' : 'L') + chartCoords.x + ',' + chartCoords.y;
           });
         });
 

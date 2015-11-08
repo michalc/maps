@@ -129,13 +129,12 @@
     };
   }
 
-  function greatCirclePath(chartBounds, fromLong, fromLat, toLong, toLat, numPoints) {
+  function greatCirclePath(fromLong, fromLat, toLong, toLat, numPoints) {
     var path = [];
     var i, f, earthCoords;
     for (i = 0; i < numPoints; ++i) {
       f = 1/(numPoints-1) * i;
-      earthCoords = Mercator.greatCircle(fromLong, fromLat, toLong, toLat, f);
-      path.push(toChart(chartBounds, earthCoords.long, earthCoords.lat));
+      path.push(Mercator.greatCircle(fromLong, fromLat, toLong, toLat, f));
     }
     return path;
   }
