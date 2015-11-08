@@ -18,7 +18,6 @@ gulp.task('download-charts', function () {
 // Requires dev dependencies to be installed,
 // and download-charts task to be run
 gulp.task('generate-charts', function () {
-  var gzip = require('gulp-gzip');
   var source = require('vinyl-source-stream');
 
   var mapJsonStream = require('./src/map-json-stream');
@@ -55,7 +54,6 @@ gulp.task('generate-charts', function () {
   return merge(l1LandmapStream, l2LandmapStream, l1BordermapStream)
     .pipe(svgStream)
     .pipe(source(outputFile))
-    .pipe(gzip({append: false}))
     .pipe(gulp.dest(outputDir));
 });
 
