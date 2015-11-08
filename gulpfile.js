@@ -65,22 +65,41 @@ gulp.task('lint', function () {
 });
 
 gulp.task('default', [], function() {
+  var cssnext = require('gulp-cssnext');
   var build = 'build';
   var dest = build;
 
   var dataSrc = 'data/*.svg';
   var dataDest = build + '/data';
-  var dataFiles = gulp.src(dataSrc)
+  var data = gulp.src(dataSrc)
     .pipe(changed(dataDest))
     .pipe(gulp.dest(dataDest));
 
-  var src = [
-    'src/*',
-    '!src/map-json-stream.js'
+  var jsSrc = [
+    'src/mercator.js',
+    'src/app.js'
   ];
-  var srcFiles = gulp.src(src)
+  var js= gulp.src(jsSrc)
     .pipe(changed(dest))
     .pipe(gulp.dest(dest));
+
+  var htmlSrc = [
+    'src/index.html'
+  ];
+  var html = gulp.src(htmlSrc)
+    .pipe(changed(dest))
+    .pipe(gulp.dest(dest));
+
+  var cssSrc = [
+    'src/style.css'
+  ];
+  var css = gulp.src(cssSrc)
+    .pipe(changed(dest))
+    .pipe(cssnext({
+      browsers: 'Safari >= 8, iOS >= 8, Chrome >= 46, Firefox >= 42'
+    }))
+    .pipe(gulp.dest(dest));
+
 
   var bowerSrcDir = 'bower_components';
   var bowerDest = build + '/bower_components';
@@ -90,9 +109,9 @@ gulp.task('default', [], function() {
     bowerSrcDir + '/normalize-css/normalize.css'
   ];
 
-  var bowerFiles = gulp.src(files, {base: bowerSrcDir})
+  var bower = gulp.src(files, {base: bowerSrcDir})
     .pipe(changed(bowerDest))
     .pipe(gulp.dest(bowerDest));
 
-  return merge(dataFiles, srcFiles, bowerFiles);
+  return merge(data, html, js, css, bower);
 });
