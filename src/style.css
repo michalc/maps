@@ -94,10 +94,15 @@ chart {
 }
 
 circle {
-  stroke: red;
-  fill: rgba(0,0,0,0);
+  stroke: rgba(0,0,0,0.16);
+  fill: rgba(0,0,0,0.15);
   cursor: -webkit-grab;
   cursor: grab;
+}
+
+circle.draggable-mouseover,
+circle.dragging {
+  fill: rgba(0,0,0,0.2);
 }
 
 .great-circle {

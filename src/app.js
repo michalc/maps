@@ -100,9 +100,19 @@
 
         var elementRect, rootRect;
         
+        element.on('mouseenter', function() {
+          element.addClass('draggable-mouseover');
+        });
+
+        element.on('mouseleave', function() {
+          element.removeClass('draggable-mouseover');
+        });
+
         element.on('mousedown touchstart', function(e) {
           e.preventDefault();
           overlay.show();
+
+          element.addClass('dragging');
 
           elementRect = element[0].getBoundingClientRect();
           rootRect = root.getBoundingClientRect();
@@ -127,6 +137,8 @@
         function onMouseUp(e) {
           e.preventDefault();
           overlay.hide();
+
+          element.removeClass('dragging');
 
           offsetX = null;
           offsetY = null;
@@ -163,10 +175,10 @@
                   '<rect x="1" y="1" width="5" height="5" style="stroke: none; fill:#000000;"/>' +
                 '</marker>' +
               '</defs>' +
-              '<path class="great-circle" stroke-dasharray="2 2" ng-attr-d="{{ path1 }}" style="marker-start:url(#marker-arrow); marker-end:url(#marker-arrow)"/>' +
-              '<path class="great-circle" stroke-dasharray="2 2" ng-attr-d="{{ path2 }}" style="marker-start:url(#marker-arrow); marker-end:url(#marker-arrow)"/>' +
               '<circle ng-attr-cx="{{ toChart(circleCoords1).x }}" ng-attr-cy="{{ toChart(circleCoords1).y }}" r="25" on-drag="onDrag(circleCoords1, $x, $y)"/>' +
               '<circle ng-attr-cx="{{ toChart(circleCoords2).x }}" ng-attr-cy="{{ toChart(circleCoords2).y }}" r="25" on-drag="onDrag(circleCoords2, $x, $y)"/>' +
+              '<path class="great-circle" stroke-dasharray="2 2" ng-attr-d="{{ path1 }}" style="marker-start:url(#marker-arrow); marker-end:url(#marker-arrow)"/>' +
+              '<path class="great-circle" stroke-dasharray="2 2" ng-attr-d="{{ path2 }}" style="marker-start:url(#marker-arrow); marker-end:url(#marker-arrow)"/>' +
             '</svg>' +
           '</div>';
       },
@@ -179,7 +191,7 @@
           throw new Error('Projection must be Mercator')
         }
 
-        var numPoints = 150;
+        var numPoints = 200;
         scope.$watchGroup([
           'circleCoords1.long',
           'circleCoords1.lat',
