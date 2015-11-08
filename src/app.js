@@ -156,8 +156,8 @@
             '>' +
               '<defs>' +
                 '<marker id="marker-arrow" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto">' +
-                  '<line x1="1" y1="1" x2="6" y2="6" style="stroke:red"/>' +
-                  '<line x1="6" y1="6" x2="1" y2="11" style="stroke:red"/>' +
+                  '<line x1="1" y1="1" x2="6" y2="6" style="stroke:red" stroke-dasharray="100%"/>' +
+                  '<line x1="6" y1="6" x2="1" y2="11" style="stroke:red" stroke-dasharray="100%"/>' +
                 '</marker>' +
                 '<marker id="markerSquare" markerWidth="7" markerHeight="7" refX="4" refY="4" orient="auto">' +
                   '<rect x="1" y="1" width="5" height="5" style="stroke: none; fill:#000000;"/>' +
