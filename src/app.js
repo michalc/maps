@@ -138,7 +138,7 @@
     };
   });
 
-  app.directive('chart', function(_, Mercator) {
+  app.directive('chart', function(Mercator) {
     return {
       restrict:'E',
       scope: true,
@@ -163,7 +163,6 @@
                   '<rect x="1" y="1" width="5" height="5" style="stroke: none; fill:#000000;"/>' +
                 '</marker>' +
               '</defs>' +
-              '<path class="great-circle" stroke-dasharray="2 2" ng-attr-d="{{ path }}" style="marker-start:url(#marker-arrow); marker-end:url(#marker-arrow)"/>' +
               '<path class="great-circle" stroke-dasharray="2 2" ng-attr-d="{{ path }}" style="marker-start:url(#marker-arrow); marker-end:url(#marker-arrow)"/>' +
               '<circle ng-attr-cx="{{ toChart(circleCoords1).x }}" ng-attr-cy="{{ toChart(circleCoords1).y }}" r="25" on-drag="onDrag(circleCoords1, $x, $y)"/>' +
               '<circle ng-attr-cx="{{ toChart(circleCoords2).x }}" ng-attr-cy="{{ toChart(circleCoords2).y }}" r="25" on-drag="onDrag(circleCoords2, $x, $y)"/>' +
@@ -196,7 +195,7 @@
           );
 
           scope.path = '';
-          _.forEach(path, function(chartCoords,i) {
+          path.forEach(function(chartCoords,i) {
             scope.path += (i == 0 ? 'M' : 'L') + chartCoords.x + ',' + chartCoords.y;
           });
         });
