@@ -26,6 +26,11 @@
           'fill-opacity: 1;' +
           'stroke: none' +
         '}' +
+        '.lake { ' +
+          'fill: #068dc5;' +
+          'fill-opacity: 1;' +
+          'stroke: none' +
+        '}' +
         '.border { ' +
           'fill: none;' +
           'stroke: #cccccc;' +
@@ -47,7 +52,7 @@
         coords.push(chartCoords);
       });
 
-      var path = '<path class="land" d="';
+      var path = '<path class="' + chunk.klass + '" d="';
       coords.forEach(function(coord, i) {
         path += (i == 0 ? 'M' : 'L') + coord.x + ',' + coord.y;
       });
@@ -59,7 +64,7 @@
         coords.push(chartCoords);
       });
 
-      var path = '<path class="border" d="';
+      var path = '<path class="' + chunk.klass + '" d="';
       coords.forEach(function(coord, i) {
         path += (i == 0 ? 'M' : 'L') + coord.x + ',' + coord.y;
       });

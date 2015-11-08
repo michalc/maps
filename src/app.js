@@ -197,7 +197,6 @@
 
   app.controller('MercatorController', function($scope, Mercator) {
     $scope.chart = {
-      //src: 'world.svg',
       src: 'data/world.svg',
       projection: 'mercator',
       bounds: {

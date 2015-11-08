@@ -9,13 +9,14 @@
 
   mapnik.register_default_input_plugins();
 
-  function MapJsonStream(options, path) {
+  function MapJsonStream(options, path, klass) {
     options = options || {};
     options.objectMode = true;
     stream.Readable.call(this, options);
 
     this.path = path;
     this.featureSet = null;
+    this.klass = klass;
   }
   util.inherits(MapJsonStream, stream.Readable);
 
@@ -28,7 +29,9 @@
     while (i < numberOfObjects) {
       var feat = this.featureSet.next();
       if (feat) {
-        this.push(JSON.parse(feat.toJSON()));
+        var obj = JSON.parse(feat.toJSON());
+        obj.klass = this.klass;
+        this.push(obj);
       } else {
         this.push(null);
         this.featureSet = null;

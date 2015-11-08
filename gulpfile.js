@@ -18,12 +18,16 @@ gulp.task('download-charts', function () {
 // Requires dev dependencies to be installed,
 // and download-charts task to be run
 gulp.task('generate-charts', function () {
-  var source = require('vinyl-source-stream')
+  var source = require('vinyl-source-stream');
+  var through2 = require('vinyl-source-stream');
 
   var mapJsonStream = require('./src/map-json-stream');
   var jsonToSvgStream = require('./src/json-to-svg-stream');
 
   var l1Land = 'data_src/GSHHS_shp/c/GSHHS_c_L1.shp';
+
+  // Lakes
+  var l2Land = 'data_src/GSHHS_shp/c/GSHHS_c_L2.shp';
   var l1Border =  'data_src/WDBII_shp/c/WDBII_border_c_L1.shp';
 
   var outputDir = 'data';
@@ -44,11 +48,11 @@ gulp.task('generate-charts', function () {
     }
   };
 
-  var l1LandmapStream = new mapJsonStream({}, l1Land);
-  var l1BordermapStream = new mapJsonStream({}, l1Border);
+  var l1LandmapStream = new mapJsonStream({}, l1Land, 'land');
+  var l2LandmapStream = new mapJsonStream({}, l2Land, 'lake');
+  var l1BordermapStream = new mapJsonStream({}, l1Border, 'border');
   var svgStream = new jsonToSvgStream({}, bounds);
-
-  return merge(l1LandmapStream, l1BordermapStream)
+  return merge(l1LandmapStream, l2LandmapStream, l1BordermapStream)
     .pipe(svgStream)
     .pipe(source(outputFile))
     .pipe(gulp.dest(outputDir));
