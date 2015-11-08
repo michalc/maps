@@ -138,7 +138,7 @@
     };
   });
 
-  app.directive('chart', function(Mercator) {
+  app.directive('chart', function(_, Mercator) {
     return {
       restrict:'E',
       scope: true,
@@ -164,6 +164,7 @@
                 '</marker>' +
               '</defs>' +
               '<path class="great-circle" stroke-dasharray="2 2" ng-attr-d="{{ path }}" style="marker-start:url(#marker-arrow); marker-end:url(#marker-arrow)"/>' +
+              '<path class="great-circle" stroke-dasharray="2 2" ng-attr-d="{{ path }}" style="marker-start:url(#marker-arrow); marker-end:url(#marker-arrow)"/>' +
               '<circle ng-attr-cx="{{ toChart(circleCoords1).x }}" ng-attr-cy="{{ toChart(circleCoords1).y }}" r="25" on-drag="onDrag(circleCoords1, $x, $y)"/>' +
               '<circle ng-attr-cx="{{ toChart(circleCoords2).x }}" ng-attr-cy="{{ toChart(circleCoords2).y }}" r="25" on-drag="onDrag(circleCoords2, $x, $y)"/>' +
             '</svg>' +
@@ -185,7 +186,6 @@
           'circleCoords2.long',
           'circleCoords2.lat'
         ], function() {
-          var i, f, earthCoords;
           var path = Mercator.greatCirclePath(
             scope.chart.bounds,
             scope.circleCoords1.long,
