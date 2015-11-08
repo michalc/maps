@@ -22,10 +22,9 @@ body {
   justify-content: center;
   align-items: center;
 
-  /* Dimensions of chart */
-  min-width: 1010px;
-  min-height: 665px;
-  box-sizing: content-box;
+  /* Dimensions of chart + padding */
+  min-width: 1050px;
+  min-height: 705px;
 }
 
 a,
