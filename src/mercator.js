@@ -4,6 +4,8 @@
   Mercator.toChart = toChart;
   Mercator.toEarth = toEarth;
   Mercator.bearing = bearing;
+  Mercator.distance = distance;
+  Mercator.greatCircle = greatCircle;
 
   function toRadians(deg) {
     return deg * Math.PI / 180;
@@ -94,5 +96,37 @@
     var theta = Math.atan(dx/dy);
     return toDegrees(theta) + (dy < 0 ? 180 : 0) + (dx < 0 && dy > 0 ? 360 : 0);
   }
+
+  // http://williams.best.vwh.net/avform.htm
+  function distance(fromLong, fromLat, toLong, toLat) {
+    fromLong = toRadians(fromLong);
+    fromLat = toRadians(fromLat);
+    toLong = toRadians(toLong);
+    toLat = toRadians(toLat);
+
+    return Math.acos(
+        Math.sin(fromLat)*Math.sin(toLat)
+      + Math.cos(fromLat)*Math.cos(toLat)*Math.cos(fromLong-fromLat)
+    );
+  }
+
+  function greatCircle(fromLong, fromLat, toLong, toLat, f) {
+    fromLong = toRadians(fromLong);
+    fromLat = toRadians(fromLat);
+    toLong = toRadians(toLong);
+    toLat = toRadians(toLat);
+
+    var d = distance(fromLong, fromLat, toLong, toLat);
+    var A = Math.sin((1-f)*d)/Math.sin(d);
+    var B = Math.sin(f*d)/Math.sin(d);
+    var x = A*Math.cos(fromLat)*Math.cos(fromLong) + B*Math.cos(toLat)*Math.cos(toLong);
+    var y = A*Math.cos(fromLat)*Math.sin(fromLong) + B*Math.cos(toLat)*Math.sin(toLong);
+    var z = A*Math.sin(fromLat) + B*Math.sin(toLat)
+    return {
+      long: toDegrees(Math.atan2(y,x)),
+      lat: toDegrees(Math.atan2(z, Math.sqrt(Math.pow(x,2)+Math.pow(y,2))))
+    };
+  }
+
 
 })(typeof exports === 'undefined' ? this.Mercator = {} : exports);

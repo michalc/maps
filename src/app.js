@@ -156,11 +156,14 @@
             '>' +
               '<defs>' +
                 '<marker id="marker-arrow" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto">' +
-                  '<line x1="1" y1="1" x2="6" y2="6" style="stroke-width: 1; fill: none" stroke-dasharray="100%"/>' +
-                  '<line x1="6" y1="6" x2="1" y2="11" style="stroke-width: 1; fill: none" stroke-dasharray="100%"/>' +
+                  '<line x1="1" y1="1" x2="6" y2="6" style="stroke:red"/>' +
+                  '<line x1="6" y1="6" x2="1" y2="11" style="stroke:red"/>' +
+                '</marker>' +
+                '<marker id="markerSquare" markerWidth="7" markerHeight="7" refX="4" refY="4" orient="auto">' +
+                  '<rect x="1" y="1" width="5" height="5" style="stroke: none; fill:#000000;"/>' +
                 '</marker>' +
               '</defs>' +
-              '<line stroke-dasharray="2 2" ng-attr-x1="{{ toChart(circleCoords1).x }}" ng-attr-y1="{{ toChart(circleCoords1).y }}" ng-attr-x2="{{ toChart(circleCoords2).x }}" ng-attr-y2="{{ toChart(circleCoords2).y }}" style="marker-start:url(#marker-arrow); marker-end:url(#marker-arrow)"/>' +
+              '<path class="great-circle" stroke-dasharray="2 2" ng-attr-d="{{ path }}" style="marker-start:url(#marker-arrow); marker-end:url(#marker-arrow)"/>' +
               '<circle ng-attr-cx="{{ toChart(circleCoords1).x }}" ng-attr-cy="{{ toChart(circleCoords1).y }}" r="25" on-drag="onDrag(circleCoords1, $x, $y)"/>' +
               '<circle ng-attr-cx="{{ toChart(circleCoords2).x }}" ng-attr-cy="{{ toChart(circleCoords2).y }}" r="25" on-drag="onDrag(circleCoords2, $x, $y)"/>' +
             '</svg>' +
@@ -174,6 +177,30 @@
         if (scope.chart.projection != 'mercator') {
           throw new Error('Projection must be Mercator')
         }
+
+        var points = 150;
+        scope.$watchGroup([
+          'circleCoords1.long',
+          'circleCoords1.lat',
+          'circleCoords2.long',
+          'circleCoords2.lat'
+        ], function() {
+          var i, f, earthCoords;
+          scope.path = '';
+          for (i = 0; i <= points; ++i) {
+            f = 1/points * i;
+            earthCoords = Mercator.greatCircle(
+              scope.circleCoords1.long,
+              scope.circleCoords1.lat,
+              scope.circleCoords2.long,
+              scope.circleCoords2.lat,
+              f
+            );
+
+            var chartCoords = Mercator.toChart(scope.chart.bounds, earthCoords.long, earthCoords.lat);
+            scope.path += (i == 0 ? 'M' : 'L') + chartCoords.x + ',' + chartCoords.y;
+          }
+        });
 
         element.css({
           width: attrs.width + 'px',
@@ -216,12 +243,12 @@
     };
 
     $scope.circleCoords1 = {
-      lat: 0,
-      long: 0
+      lat: 37.7,
+      long: -122.4
     };
     $scope.circleCoords2 = {
-      lat: 30,
-      long: 60
+      lat: 51.5,
+      long: -0.1
     };
     $scope.bearing = function() {
       return Mercator.bearing($scope.chart.bounds, $scope.circleCoords1.long, $scope.circleCoords1.lat, $scope.circleCoords2.long, $scope.circleCoords2.lat);

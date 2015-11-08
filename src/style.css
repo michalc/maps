@@ -99,7 +99,8 @@ circle {
   cursor: grab;
 }
 
-line {
+.great-circle {
+  fill: none;
   stroke: red;
   stroke-width: 2;
   pointer-events: none;
