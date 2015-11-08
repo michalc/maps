@@ -85,6 +85,7 @@ chart {
 
 .chart-widgets {
   position: relative;
+  overflow: visible !important; /* Override normalize */
 }
 
 .attribution {
@@ -93,7 +94,7 @@ chart {
 }
 
 circle {
-  stroke: none;
+  stroke: red;
   fill: rgba(0,0,0,0);
   cursor: -webkit-grab;
   cursor: grab;
