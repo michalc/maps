@@ -104,8 +104,7 @@ gulp.task('default', [], function() {
   var bowerSrcDir = 'bower_components';
   var bowerDest = build + '/bower_components';
   var files = [
-    bowerSrcDir + '/lodash/lodash.js',
-    bowerSrcDir + '/angular/angular.js',
+    bowerSrcDir + '/angular/angular.min.js',
     bowerSrcDir + '/normalize-css/normalize.css'
   ];
 
