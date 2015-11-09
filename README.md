@@ -10,7 +10,7 @@ To build the site into the `build` directory:
 
 ```
 npm install --production
-grunt
+gulp
 ```
 
 ## Deploy
@@ -23,8 +23,8 @@ To download the source data and re-generate the SVG chart:
 
 ```
 npm install
-grunt download-charts
-grunt generate-charts
+gulp download-charts
+gulp generate-charts
 ```
 
 The derived SVG chart is deliberatly committed to this repository to avoid the source data being re-downloaded and processed on every build.
