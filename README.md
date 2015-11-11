@@ -1,4 +1,4 @@
-# maps [![Build Status](https://travis-ci.org/michalc/maps.svg?branch=master)](https://travis-ci.org/michalc/maps)
+# maps [![Build Status](https://travis-ci.org/michalc/maps.svg?branch=master)](https://travis-ci.org/michalc/maps) [![Dependencies](https://david-dm.org/michalc/maps.svg)](https://david-dm.org/michalc/maps)
 
 This is the source repository for [http://maps.charemza.name/](http://maps.charemza.name/).
 
